@@ -12,6 +12,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use app\models\EntryForm;
 
 /**
  * Site controller
@@ -72,6 +73,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+         //$this->layout='oyym';
         return $this->render('index');
     }
 
@@ -183,6 +185,27 @@ class SiteController extends Controller
         return $this->render('requestPasswordResetToken', [
             'model' => $model,
         ]);
+    }
+    public function actionSay($message='Hello')
+    {
+        return $this->render('say',['message'=>$message]);
+
+    }
+
+    public function actionEntry()
+    {
+        $model = new EntryForm;
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            // 验证 $model 收到的数据
+
+            // 做些有意义的事 ...
+
+            return $this->render('entry-confirm', ['model' => $model]);
+        } else {
+            // 无论是初始化显示还是数据验证错误
+            return $this->render('entry', ['model' => $model]);
+        }
     }
 
     /**
